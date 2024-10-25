@@ -30,38 +30,27 @@ const col3 = [game[2], game [5],game [8]];
 console.log(diagonal1);
 console.log(diagonal2);
 
-
 let cellToCheck;
 
-// console.log(cells);
-
-/* cells.forEach(element => {
-    console.log(element.innerText);
-}); */
-
-// beginner version
-/* game.forEach(element => {
-    element.addEventListener('click', () => {
-        if (player==1 && element.innerText==="") {
-            element.innerText="X";
-            
-            player=2;
-            console.log(player);
-
-        }
-        else if (player==2 && element.innerText==="") {
-            element.innerText="O";
-            player =1;
-            console.log(player);
-
-        }
-        
-    });
-}); */
-// !!!!!the switch is way too long , write a more concise version using an array of winning lines later 
+ console.log(cells);
+ 
+const winningLinesMap = {
+    0: [[row1, col1, diagonal1]],
+    1: [[row1, col2]],
+    2: [[row1, col3, diagonal2]],
+    3: [[row2, col1]],
+    4: [[row2, col2, diagonal1, diagonal2]],
+    5: [[row3, col3]],
+    6: [[row3, col1, diagonal2]],
+    7: [[row3, col2]],
+    8: [[row3, col3, diagonal1]]
+};
 
 
-game.forEach((element,index) => {
+
+
+
+ game.forEach((element,index) => {
     element.addEventListener('click', (event) => {
         console.log(index);
         
@@ -133,9 +122,8 @@ game.forEach((element,index) => {
         
      
     });
-});
-/* !FAKE POSITIVE WINS SOMEWHERE DOUBLE CHECK EVERYTHING */
-// make function more efficient later by !only checking the line and column that's being clicked for now check all 8 win cons no matter where the user is clicking
+}); 
+ 
 function checkWinCondition (lineToCheck) {
     // console.log('Checking line:', lineToCheck.map(cell => cell.innerText));
     
