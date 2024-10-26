@@ -1,56 +1,33 @@
-// const game1 = document.querySelector(".game");
+const game1 = document.querySelector(".game");
 const cells = document.querySelectorAll(".cell");
 let player=1;
+player= Number(localStorage.getItem("chosenToken"));
 let turn=0;
 
-// const game =Array.from( cells, cell => cell.textContent);
-// console.log(game);
-// both work about the same
-
-/* const game = [...cells].map( cell => cell.textContent );
-console.log(game); */
-
 const game = [...cells];
-console.log(game);
 const row1 = game.slice(0,3);
-// console.log(row1);
 const row2 = game.slice(3,6);
-console.log(row2);
 const row3 = game.slice(6,9);
-// console.log(row3);
-
-// console.log(col3);
-
-
 const diagonal1 = [game[0], game [4], game [8]];
 const diagonal2 = [game[2], game [4],game [6]];
 const col1 = [game[0], game [3],game [6]];
 const col2 = [game[1], game [4],game [7]];
 const col3 = [game[2], game [5],game [8]];
-console.log(diagonal1);
-console.log(diagonal2);
-
-let cellToCheck;
-
- console.log(cells);
- 
-const winningLinesMap = {
-    0: [[row1, col1, diagonal1]],
-    1: [[row1, col2]],
-    2: [[row1, col3, diagonal2]],
-    3: [[row2, col1]],
-    4: [[row2, col2, diagonal1, diagonal2]],
-    5: [[row3, col3]],
-    6: [[row3, col1, diagonal2]],
-    7: [[row3, col2]],
-    8: [[row3, col3, diagonal1]]
-};
 
 
 
+/* const board = {
+row1: [game.slice(0,3)],
+row2:[game.slice(3,6)],
+row3:[game.slice(6,9)],
+diagonal1:[game[0], game [4], game [8]],
+diagonal2:[game[2], game [4],game [6]],
+col1:[game[0], game [3],game [6]],
+col2:[game[1], game [4],game [7]],
+col3:[game[2], game [5],game [8]],
+}; */
 
-
- game.forEach((element,index) => {
+game.forEach((element,index) => {
     element.addEventListener('click', (event) => {
         console.log(index);
         
@@ -59,8 +36,11 @@ const winningLinesMap = {
             element.innerText= player === 1 ? "X" : "O";
             
             
+            
             turn++;
+            console.log(typeof(turn));
             console.log(`turn:${turn}`);
+            
                 if (turn>=5) {
                     switch (index) {
                         case 0:
@@ -112,7 +92,13 @@ const winningLinesMap = {
                         default:
                             break;
                     }
-                
+                            
+                    if (turn=== 9) {
+                        setTimeout(() => {
+                            resetBoard();
+                        }, 200);
+                        
+                    }
                     }
 
                     player = player === 1 ? 2: 1;
@@ -124,23 +110,47 @@ const winningLinesMap = {
     });
 }); 
  
-function checkWinCondition (lineToCheck) {
+// now with the object containing arrays linetocheck is one of the properties
+ function checkWinCondition (lineToCheck) {
     // console.log('Checking line:', lineToCheck.map(cell => cell.innerText));
     
     const winner = lineToCheck[0].innerText.trim();
     if (winner && lineToCheck.every(cell => cell.innerText.trim()===winner)) {
         // without timeout the alert will display before the text even changes in the cell
+        
+        
         setTimeout(() => {
-            window.alert(winner +" "+  "WINS!")
-            cells.forEach(cell => cell.innerText="");
-            // need to treat qselecall as an array and iterate over it
+            window.alert(winner +" "+  "WINS!"); 
+            resetBoard();
+            
         }, 100);
+
         
     }
 
-    // return lineToCheck.every(cell => cell.innerText=="X" || cell.innerText=="O");
     
+} 
+function resetBoard() {
+    cells.forEach(cell => cell.innerText="");
+    player=1;
+    turn=0;
 }
+
+// testing event delegation from parent 
+const selectToken = document.querySelector("#selectToken");
+const xToken = document.querySelector("#x");
+const oToken = document.querySelector("#o");
+selectToken.addEventListener('click', (event) => {
+    /* if (event.target== oToken) {
+        player= 2;
+        window.alert("you play is o u donut");
+
+    } */
+    
+    localStorage.setItem("chosenToken", event.target== xToken ? 1 : 2 );
+    window.alert("you play as" + player);
+    window.location.href = "game.html";
+});
 
 
 
