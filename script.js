@@ -122,7 +122,7 @@ game.forEach((element,index) => {
         setTimeout(() => {
             window.alert(winner +" "+  "WINS!"); 
             resetBoard();
-            
+            window.location.href= "index.html";
         }, 100);
 
         
@@ -147,7 +147,9 @@ selectToken.addEventListener('click', (event) => {
 
     } */
     
+    
     localStorage.setItem("chosenToken", event.target== xToken ? 1 : 2 );
+    player= Number(localStorage.getItem("chosenToken"));
     window.alert("you play as" + player);
     window.location.href = "game.html";
 });

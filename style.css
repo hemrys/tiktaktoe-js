@@ -4,9 +4,14 @@
     box-sizing: border-box;
 }
 main {
+    position: relative;
     height: 100vh;
     display: flex;
     background: url("images/bg.jpg") center/cover no-repeat;
+    
+}
+
+.scoreboard {
     
 }
 
