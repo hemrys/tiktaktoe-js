@@ -15,6 +15,8 @@ main {
     
 }
 
+
+
 #selectToken {
     display: flex;
     width: 300px;
@@ -61,6 +63,8 @@ main {
     /* } */ 
 }
 
+
+
 .cell {
     width: 100px;
     height: 100px;
@@ -77,4 +81,7 @@ main {
         box-shadow: 0px 0px 10px white;
 
     }
+
+   
 }
+
