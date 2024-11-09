@@ -3,6 +3,7 @@ const cells = document.querySelectorAll(".cell");
 let player=1;
 player= Number(localStorage.getItem("chosenToken"));
 let turn=0;
+let playerToken= player === 1 ? "X" : "O";
 
 const game = [...cells];
 const row1 = game.slice(0,3);
@@ -16,16 +17,7 @@ const col3 = [game[2], game [5],game [8]];
 
 
 
-/* const board = {
-row1: [game.slice(0,3)],
-row2:[game.slice(3,6)],
-row3:[game.slice(6,9)],
-diagonal1:[game[0], game [4], game [8]],
-diagonal2:[game[2], game [4],game [6]],
-col1:[game[0], game [3],game [6]],
-col2:[game[1], game [4],game [7]],
-col3:[game[2], game [5],game [8]],
-}; */
+
 
 game.forEach((element,index) => {
     element.addEventListener('click', (event) => {
@@ -33,15 +25,15 @@ game.forEach((element,index) => {
         
         
         if (element.innerText === "") {
-            element.innerText= player === 1 ? "X" : "O";
+            element.innerText= playerToken;
             
-            
+            cpuPlay();
             
             turn++;
             console.log(typeof(turn));
             console.log(`turn:${turn}`);
             
-                if (turn>=5) {
+                if (turn>=4) {
                     switch (index) {
                         case 0:
                             checkWinCondition(row1);
@@ -101,8 +93,8 @@ game.forEach((element,index) => {
                     }
                     }
 
-                    player = player === 1 ? 2: 1;
-            console.log(`next player:${player}`);
+                    /* player = player === 1 ? 2: 1;
+            console.log(`next player:${player}`); */
          }
 
         
@@ -110,7 +102,7 @@ game.forEach((element,index) => {
     });
 }); 
  
-// now with the object containing arrays linetocheck is one of the properties
+// now with the object containing arrays linetocheck as one of the properties
  function checkWinCondition (lineToCheck) {
     // console.log('Checking line:', lineToCheck.map(cell => cell.innerText));
     
@@ -141,20 +133,21 @@ const selectToken = document.querySelector("#selectToken");
 const xToken = document.querySelector("#x");
 const oToken = document.querySelector("#o");
 selectToken.addEventListener('click', (event) => {
-    /* if (event.target== oToken) {
-        player= 2;
-        window.alert("you play is o u donut");
-
-    } */
-    
-    
     localStorage.setItem("chosenToken", event.target== xToken ? 1 : 2 );
     player= Number(localStorage.getItem("chosenToken"));
     window.alert("you play as" + player);
     window.location.href = "game.html";
 });
 
-
+function cpuPlay(difficulty) {
+    const cpuToken= player === 1 ? "O" : "X";
+    const emptyCells = game.filter(cell => cell.innerText === "");
+    const randomIndex = Math.floor(Math.random() * emptyCells.length);
+    const cpuMove = emptyCells[randomIndex];
+    cpuMove.innerText = cpuToken;
+    turn++;
+    
+}
 
 
 
