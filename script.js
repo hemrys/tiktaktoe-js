@@ -5,6 +5,12 @@ player= Number(localStorage.getItem("chosenToken"));
 let turn=0;
 let playerToken= player === 1 ? "X" : "O";
 
+// default value , add a select menu in landing page
+// let difficulty= "easy";
+let difficulty= "easy";
+
+
+
 const game = [...cells];
 const row1 = game.slice(0,3);
 const row2 = game.slice(3,6);
@@ -27,7 +33,7 @@ game.forEach((element,index) => {
         if (element.innerText === "") {
             element.innerText= playerToken;
             
-            cpuPlay();
+            cpuPlay(difficulty);
             
             turn++;
             console.log(typeof(turn));
@@ -93,8 +99,7 @@ game.forEach((element,index) => {
                     }
                     }
 
-                    /* player = player === 1 ? 2: 1;
-            console.log(`next player:${player}`); */
+                    
          }
 
         
@@ -126,6 +131,7 @@ function resetBoard() {
     cells.forEach(cell => cell.innerText="");
     player=1;
     turn=0;
+    window.location.href= "index.html";
 }
 
 // testing event delegation from parent 
@@ -140,12 +146,32 @@ selectToken.addEventListener('click', (event) => {
 });
 
 function cpuPlay(difficulty) {
-    const cpuToken= player === 1 ? "O" : "X";
+    if (difficulty === "easy") {
+        cpuMoveEasy();
+    } else if (difficulty === "hard") {
+        cpuMoveHard();
+    }
+}
+
+
+function cpuMoveEasy() {
+    const cpuToken= player === 1 ? "O" : "X";   
     const emptyCells = game.filter(cell => cell.innerText === "");
     const randomIndex = Math.floor(Math.random() * emptyCells.length);
+    if (emptyCells.length === 0) {
+        return
+    }
     const cpuMove = emptyCells[randomIndex];
     cpuMove.innerText = cpuToken;
     turn++;
+}
+
+function cpuMoveHard() {
+    const cpuToken= player === 1 ? "O" : "X";   
+    const emptyCells = game.filter(cell => cell.innerText === "");
+    
+// just copy paste of minmax recrusive function here:
+
     
 }
 
