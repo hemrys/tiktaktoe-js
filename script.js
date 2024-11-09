@@ -23,78 +23,25 @@ const col3 = [game[2], game [5],game [8]];
 
 
 
+// can write this with delegation instead
 
-
-game.forEach((element,index) => {
+ game.forEach((element,index) => {
     element.addEventListener('click', (event) => {
         console.log(index);
         
         
         if (element.innerText === "") {
             element.innerText= playerToken;
-            
             cpuPlay(difficulty);
-            
             turn++;
-            console.log(typeof(turn));
-            console.log(`turn:${turn}`);
+            
             
                 if (turn>=4) {
-                    switch (index) {
-                        case 0:
-                            checkWinCondition(row1);
-                            checkWinCondition(col1);
-                            checkWinCondition(diagonal1);
-
-                            break;
-                        case 1:
-                            checkWinCondition(row1);
-                            checkWinCondition(col2);
-                            break;
-                        case 2:
-                            checkWinCondition(row1);
-                            checkWinCondition(col3);
-                            checkWinCondition(diagonal2);
-
-                            break;
-                        case 3:
-                            checkWinCondition(row2);
-                            checkWinCondition(col1);
-                            break;
-                        case 4:
-                            checkWinCondition(row2);
-                            checkWinCondition(col2);
-                            checkWinCondition(diagonal1);
-                            checkWinCondition(diagonal2);
-
-                            break;
-                        case 5:
-                            checkWinCondition(row3);
-                            checkWinCondition(col3);
-                            break;
-                        case 6:
-                            checkWinCondition(row3);
-                            checkWinCondition(col1);
-                            checkWinCondition(diagonal2);
-                            break;
-                        case 7:
-                            checkWinCondition(row3);
-                            checkWinCondition(col2);
-                            break;
-                        case 8:
-                            checkWinCondition(row3);
-                            checkWinCondition(col3);
-                            checkWinCondition(diagonal1);
-                            break;
-                    
-                        default:
-                            break;
-                    }
+                   const winConditions= getWinConditions(index);
+                   winConditions.forEach(checkWinCondition);
                             
                     if (turn=== 9) {
-                        setTimeout(() => {
-                            resetBoard();
-                        }, 200);
+                        setTimeout(resetBoard,200);
                         
                     }
                     }
@@ -105,8 +52,55 @@ game.forEach((element,index) => {
         
      
     });
-}); 
- 
+});  
+
+function getWinConditions(index) {
+    switch (index) {
+        case 0:
+            return [row1,col1,diagonal1];   
+
+
+            break;
+        case 1:
+            return [row1,col2];
+            break;
+        case 2:
+           return [row1,col3,diagonal2];
+
+            break;
+        case 3:
+           return [row2,col1];
+            break;
+        case 4:
+            return [row2,col2,diagonal1,diagonal2];
+
+            break;
+        case 5:
+
+            return [row2,col3];
+            break;
+        case 6:
+
+            return [row3,col1,diagonal2];
+            break;
+        case 7:
+            
+            return [row3,col2];
+            break;
+        case 8:
+
+            return [row3,col3,diagonal1];
+            break;
+    
+        default:
+            return [];
+            break;
+    }
+}
+  
+
+
+
 // now with the object containing arrays linetocheck as one of the properties
  function checkWinCondition (lineToCheck) {
     // console.log('Checking line:', lineToCheck.map(cell => cell.innerText));
@@ -161,9 +155,16 @@ function cpuMoveEasy() {
     if (emptyCells.length === 0) {
         return
     }
-    const cpuMove = emptyCells[randomIndex];
+    // was a bit too fast without timeout
+    setTimeout(() => {
+        const cpuMove = emptyCells[randomIndex];
     cpuMove.innerText = cpuToken;
+    // check win con 
+    const winConditions= getWinConditions(randomIndex);
+    winConditions.forEach(checkWinCondition);
     turn++;
+    }, 350);
+    
 }
 
 function cpuMoveHard() {
@@ -171,7 +172,7 @@ function cpuMoveHard() {
     const emptyCells = game.filter(cell => cell.innerText === "");
     
 // just copy paste of minmax recrusive function here:
-
+// or make custom slightly more/less efficient algorithm if i manage to get it to work
     
 }
 
